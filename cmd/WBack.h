@@ -8,14 +8,15 @@ using namespace std;
 class WBack
 {
 private:
-	vector <int> Forwarding_Unit;		//WB + Mux Result + RT/RD Address
+	vector <int> WB_Forwarding_Unit;		//WB + Mux Result + RT/RD Address
+	vector <int> Memory_Buffer;			//Taking Memory_Buffer.
 
 public:
 	WBack();
-	void WB_run(vector <int> *);
+	void WB_run(vector <int> *);			//Run
+	vector <int> Send_FU_WB_To_Execute(int RegWrite,int MemToReg,int MuxResult,int RT_or_RD);	//Forwarding Unit
 	~WBack();
-	vector Send_FU_Execute();
-	vector <int> Memory_Buffer;			//Taking Memory_Buffer.
+
 
 };
 

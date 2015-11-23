@@ -12,16 +12,15 @@ class Memory
 {
 private:
 	
-	vector <int> Memory_Buffer;			//Memory Buffer
-	vector <int> Forwarding_Unit;		//WB + ALU Result + RT/RD Address
+	vector <int> Mem_Forwarding_Unit;		//WB + ALU Result + RT/RD Address
+	vector <int> Memory_Buffer;			//Producing Memory_Buffer.
+	vector <int> IExecute_Buffer;	//Taking Execute_Buffer.
 
 public:
 	Memory();
-	void Memory_run(vector <int> *);
+	vector<int> Memory_run(vector <int> *);			//Run
+	vector <int> Send_FU_Mem_To_Execute(int RegWrite, int MemToReg, int MuxResult, int RT_or_RD);		//Forwarding Unit
 	~Memory();
-
-	vector<int> Send_FU_Execute();
-	vector <int> IExecute_Buffer;	//Taking Execute_Buffer.
 
 };
 
