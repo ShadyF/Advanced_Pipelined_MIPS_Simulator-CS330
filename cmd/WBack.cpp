@@ -1,38 +1,44 @@
 #include <vector>
 #include "WBack.h"
-
+#include "Memory.h"
 using namespace std;
-
 
 WBack::WBack()
 {};
-
 WBack::~WBack()
 {};
 
-void WBack::WB_run(vector<int> * Memory_Buffer)
+int Mux_Result;	//ay khara (Register File from Amr)
+
+void WBack::WB_run(vector<int> Memory_Buffer)
 {
 	// Extracting Memory Buffer
-	int RegWrite = Memory_Buffer->at(0),
-		MemToReg = Memory_Buffer->at(1),
-		Mem_Data = Memory_Buffer->at(2),
-		ALU_Result = Memory_Buffer->at(3),
-		RT_or_RD = Memory_Buffer->at(4);
+	int RegWrite = Memory_Buffer[0],
+		MemToReg = Memory_Buffer[1],
+		Mem_Data = Memory_Buffer[2],
+		ALU_Result = Memory_Buffer[3],
+		RT_or_RD = Memory_Buffer[4];
 
-
-	//To do...
-
+	if (RegWrite && !MemToReg)
+		Mux_Result = ALU_Result;
+	else if (RegWrite && MemToReg)
+		Mux_Result = Mem_Data;
 
 };
 
-vector<int> WBack::Send_FU_WB_To_Execute(int RegWrite,int MemToReg,int MuxResult, int RT_or_RD)
+vector<int> WBack::Send_FU_WB_To_Execute(vector<int> Memory_Buffer) 
 {
-	WB_Forwarding_Unit.resize(4);		//Size to 4
+	// Extracting Memory Buffer
+	int RegWrite = Memory_Buffer[0],
+		MemToReg = Memory_Buffer[1],
+		RT_or_RD = Memory_Buffer[4];
 
-	WB_Forwarding_Unit.push_back(RegWrite);
-	WB_Forwarding_Unit.push_back(MemToReg);
-	WB_Forwarding_Unit.push_back(MuxResult);
-	WB_Forwarding_Unit.push_back(RT_or_RD);	
+
+	//WB_Forwarding_Unit [Size=4]
+	WB_Forwarding_Unit.push_back(RegWrite);		//0
+	WB_Forwarding_Unit.push_back(MemToReg);		//1
+	WB_Forwarding_Unit.push_back(Mux_Result);	//2
+	WB_Forwarding_Unit.push_back(RT_or_RD);		//3
 
 	//WB_Forwarding_Unit is the full buffer of WB + MuxResult + RT/RD Address
 	return WB_Forwarding_Unit;
