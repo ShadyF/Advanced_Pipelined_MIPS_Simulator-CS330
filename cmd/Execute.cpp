@@ -1,6 +1,6 @@
-#include "Execute.h"
 #include <string>
 #include <vector>
+#include "Execute.h"
 
 Execute::Execute()
 {
@@ -17,6 +17,7 @@ std::vector<int> Execute::run(std::vector<int> Decode_buffer, std::vector<int> F
   R1 = Decode_buffer[8]; R2 = Decode_buffer[9];
 	Imm = Decode_buffer[10];
   RS_addr = Decode_buffer[11]; RT_addr = Decode_buffer[12]; RD_addr = Decode_buffer[13];
+
   RegWrite_mem = F_DM[0]; MemtoReg_mem = F_DM[1]; ALU_res_mem = F_DM[2]; RTorRD_mem = F_DM[3];
   RegWrite_wb = F_WB[0]; MemtoReg_wb = F_DM[2]; WB_data = F_WB[2]; RTorRD_wb = F_WB[3];
 

@@ -5,22 +5,22 @@ A VECTOR THAT HAS [PC , INSTRUCTION(INT) ].
 
 #ifndef FETCH_H
 #define FETCH_H
-#include<iostream>
-#include<vector>
-#include<string>
+
 using namespace std;
 
 class Fetch
 {
 private:
-	int pc;                               //Program Counter
 	int instruction;                     // instruction
 	vector<int> IF_ID_Buffer;           // vector containing pc and instruction that will be passed to the next stage
 	vector<int> temp;          
 
 public:
-	Fetch(vector<int>);            // initilizing by passing vector of instructions (int)      
-	~Fetch();
+  int pc;                               //Program Counter
+
+  Fetch();
+  ~Fetch();
+	void init(vector<int>);            // initilizing by passing vector of instructions (int)      
 	vector<int>& run(int,int);      // passes to it pc of branch and branch signal. returns pc and instruction
 
 

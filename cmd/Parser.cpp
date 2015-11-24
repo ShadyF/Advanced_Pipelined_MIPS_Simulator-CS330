@@ -2,11 +2,13 @@
 THE A VECTOR OF INSTRUCTIONS. IN YOUR MAIN METHOD YOU SHOULD COPY THE VECTOR THAT IS
 RETURNTED BY THE RUN METHOD TO ANOTHER VECTOR ie( vector<string>yourvector= parser.run(Text.tx);)
 */
-#include "Parser.h"
 #include <iostream>
-#include<vector>
-#include<string>
-#include<bitset>
+#include <vector>
+#include <string>
+#include <bitset>
+#include <fstream>
+#include "Parser.h"
+
 using namespace std;
 
 Parser::Parser()
@@ -19,9 +21,14 @@ Parser::~Parser()
 
 }
 
-vector<int>& Parser::run(string filename)  
+vector<int> Parser::run(string filename)  
 {
 	fin.open(filename);
+  if(!fin.is_open())
+  {
+    cout << "File not found";
+    return Ins_mem_int;
+  }
 	while (!fin.eof()) 
 	{
 		getline(fin, instruction);

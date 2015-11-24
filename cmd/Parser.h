@@ -4,17 +4,14 @@ RETURNTED BY THE RUN METHOD TO ANOTHER VECTOR ie( vector<string>yourvector= pars
 */
 #ifndef PARSER_H
 #define PARSER_H
-#include<iostream>
-#include<fstream>
-#include <vector>
-#include<bitset>
+
 using namespace std;
 
 class Parser
 {
 private:
 	string instruction;                     //instruction parsed
-	ifstream fin;                          // file stream
+	std::ifstream fin;                          // file stream
 	vector<string> Ins_Mem;               // instruction memory(string)
 	vector<int>Ins_mem_int;               // instruction memory(int)
 
@@ -23,8 +20,7 @@ private:
 public:
 	Parser();
 	~Parser();
-	vector<int>& run(string);     // run method that parse the file and fill the instruction memory
-
+	vector<int> run(string);     // run method that parse the file and fill the instruction memory
 
 };
 

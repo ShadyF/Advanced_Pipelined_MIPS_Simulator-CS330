@@ -1,7 +1,11 @@
+#include <iostream>
+#include <vector>
+#include "CPU.h"
+using namespace std;
+
 int main()
 {
-    cout<<"Hello World";
-	cout << "zizobizo";
-		cout<<"It's me";
-    return 0;
+  CPU CP("Text");
+  for(auto x : CP.InsMemory)
+    cout << x <<endl;
 }

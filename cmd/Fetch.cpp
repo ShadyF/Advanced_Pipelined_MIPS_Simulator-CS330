@@ -1,11 +1,20 @@
-#include "Fetch.h"
 #include<iostream>
 #include<vector>
 #include<string>
 #include<bitset>
+#include "Fetch.h"
+
 using namespace std;
 
-Fetch::Fetch(vector<int> Instruction_Mem)
+Fetch::Fetch()
+{}
+
+Fetch::~Fetch()
+{
+
+}
+
+void Fetch::init(vector<int> Instruction_Mem)
 {
 	pc = -1;
 	for (int i = 0; i < Instruction_Mem.size(); i++)
@@ -14,10 +23,6 @@ Fetch::Fetch(vector<int> Instruction_Mem)
 	}
 }
 
-Fetch::~Fetch()
-{
-
-}
 
 vector<int>& Fetch:: run(int pc_branch, int branch_signal)
 {

@@ -1,8 +1,14 @@
+#include <vector>
+#include <fstream>
+#include "Fetch.h"
+#include "Parser.h"
 #include "CPU.h"
 
-CPU::CPU()
+CPU::CPU(std::string filename)
 {
-	//get from parset and input to inst_mem vector
+  Parser Parse;
+  InsMemory = Parse.run(filename);
+  FetchStage.init(InsMemory);
 	clock = 0;
 	Regs.resize(16);
 }

@@ -1,17 +1,21 @@
 #ifndef CPU_H
 #define CPU_H
 
+#include "Fetch.h"
+
 class CPU
 {
 private:
-	vector<int> Fetch_buffer, Decode_buffer, Execute_buffer, Memory_buffer, WB_buffer;
-	
+	std::vector<int> Fetch_buffer, Decode_buffer, Execute_buffer, Memory_buffer, WB_buffer;
+  Fetch FetchStage;
+
 public:
-	vector<int> Regs;
-	vector<int> Ins_memory;
+	std::vector<int> Regs;
+  std::vector<int> DataMemory;                      //to be implemented
+	std::vector<int> InsMemory;
 	int clock;
 	
-	CPU(); 				//should take text file here
+	CPU(std::string); 				//should take text file here
 	~CPU();
 	void run_one_cycle();
 	void rst();
