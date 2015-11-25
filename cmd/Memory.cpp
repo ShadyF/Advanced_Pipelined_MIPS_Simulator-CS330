@@ -1,10 +1,16 @@
 #include <vector>
 #include <exception>
+#include <iostream>
 #include "Memory.h"
 
 using namespace std;
-Memory::Memory()
-{};
+Memory::Memory(vector<int>* CPU_DataMemory) : DataMemory(CPU_DataMemory)
+{
+	Memory_Buffer.resize(5);
+	Mem_Forwarding_Unit.resize(4);
+};
+
+//Brach to be implemented
 vector<int> Memory::Memory_run(vector <int> IExecute_Buffer)
 {
 	// Extracting IExecute Buffer.
@@ -18,37 +24,40 @@ vector<int> Memory::Memory_run(vector <int> IExecute_Buffer)
 		ALU_Result = IExecute_Buffer[6],
 		RT_or_RD = IExecute_Buffer[7],
 		R2 = IExecute_Buffer[8];		//New part of buffer from Shady (R2 to store in Data Memory)
-	int Mem_Data;
+	int Mem_Data = -3;
 
 
-	vector<int> DataMemory;		//Data Memory Vector
-	DataMemory.resize(32);
 
 	//Nothing for Zero yet.
+	if (RegWrite && MemWrite)
+		cout << "Writing to both memory and regs" <<endl;
+
+	if (MemRead && MemWrite)	//if zizo
+		cout << "zizo, read and write" <<endl;
 
 	if (MemRead && !MemWrite)		//Memory Read is ON
 	{
 		if (ALU_Result < 0 || ALU_Result > 32)
 			Mem_Data = -1;			//out of range
 		else
-			Mem_Data = DataMemory[ALU_Result];
+			Mem_Data = DataMemory->at(ALU_Result);
 	}
 
 	if (MemWrite && !MemRead)		//Memory Write is ON
 	{
 		if (ALU_Result < 0 || ALU_Result > 32)
-			throw invalid_argument("Out of range 32 (ALU RESULT) FOR MEMORY WRITE");
+			cout << "Out of range @ Memory" <<endl;
 		else
-			DataMemory[ALU_Result] = R2;
+			DataMemory->at(ALU_Result) = R2;
 	}
 	//Memory_Buffer.resize(5);		//Size of buffer for WB Stage
 	//Creating Memory_Buffer
-	Memory_Buffer.push_back(RegWrite);		//0
-	Memory_Buffer.push_back(MemToReg);		//1
-	//^ WB
-	Memory_Buffer.push_back(Mem_Data);		//2	
-	Memory_Buffer.push_back(ALU_Result);	//3
-	Memory_Buffer.push_back(RT_or_RD);		//4
+	Memory_Buffer[0] = RegWrite;		//0
+	Memory_Buffer[1] = MemToReg;		//1
+											//^ WB
+	Memory_Buffer[2] = Mem_Data;		//2	
+	Memory_Buffer[3] = ALU_Result;	//3
+	Memory_Buffer[4] = RT_or_RD;		//4
 
 	return Memory_Buffer;
 };
@@ -62,12 +71,12 @@ vector<int> Memory::Send_FU_Mem_To_Execute(vector <int> IExecute_Buffer)
 
 	//Mem_Forwarding_Unit [Size = 4]
 
-	Mem_Forwarding_Unit.push_back(RegWrite);		//0
-	Mem_Forwarding_Unit.push_back(MemToReg);		//1
-	Mem_Forwarding_Unit.push_back(ALU_Result);		//2
-	Mem_Forwarding_Unit.push_back(RT_or_RD);		//3
+	Mem_Forwarding_Unit[0] = RegWrite;		//0
+	Mem_Forwarding_Unit[1] = MemToReg;		//1
+	Mem_Forwarding_Unit[2] = ALU_Result;		//2
+	Mem_Forwarding_Unit[3] = RT_or_RD;	//3
 
-	//Mem_Forwarding_Unit is the full buffer of WB + ALU_Result + RT/RD Address
+													//Mem_Forwarding_Unit is the full buffer of WB + ALU_Result + RT/RD Address
 	return Mem_Forwarding_Unit;
 };
 Memory::~Memory()
