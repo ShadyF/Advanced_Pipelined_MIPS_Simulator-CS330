@@ -10,7 +10,7 @@
 
 Decode:: Decode(vector<int> *rf){
     RegFile = *rf;
-    decodeBuffer.resize(14);
+    decodeBuffer.resize(16); //adding two more slots, one for jump flag and the other for the address
 }
 
 vector<int> Decode:: run(vector<int> *ifi){
@@ -20,6 +20,7 @@ vector<int> Decode:: run(vector<int> *ifi){
     decodeBuffer.at(12) = (inst >> 16) &  31; //rt
     decodeBuffer.at(11) = (inst >> 21) & 31;//rs
     decodeBuffer.at(10) = inst & 65535; //imm
+    decodeBuffer.at(15) = inst & 67108863; // jump
     int opcode = (inst >> 26) & 63;
     int shamt = (inst >> 6) & 31;
     int func = inst & 63;
@@ -44,6 +45,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 0; // mem read
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 0; //jump flag
                 break;
             case 35: //lw
                 decodeBuffer.at(6) = 0;
@@ -55,6 +57,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 1; // mem read
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 0; //jump flag
                 break;
             case 43: // sw
                 decodeBuffer.at(6) = 0;
@@ -66,6 +69,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 0; // mem read
                 decodeBuffer.at(4) = 1; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 0; //jump flag
                 break;
             case 2: // j
                 decodeBuffer.at(6) = 6;
@@ -76,6 +80,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 0; // mem read
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 1; //jump flag
                 break;
             case 3: // jal didnt do the linkinh part yet
                 decodeBuffer.at(6) = 7;
@@ -86,6 +91,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 0; // mem read
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 1; //jump flag
                 break;
             case 6: //ble
                 decodeBuffer.at(6) = 1;
@@ -104,6 +110,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 0; // mem read
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 0; //jump flag
                 break;
             default:
                 break;
@@ -123,6 +130,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 0; // mem read
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 1; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 0; //jump flag
                 break;
             case 32: // add
                 decodeBuffer.at(6) = 3;
@@ -136,6 +144,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 0; // mem read
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 1; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 0; //jump flag
                 break;
             case 8: //jr
                 decodeBuffer.at(6) = 8;
@@ -149,6 +158,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 0; // mem read
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 1; //jump flag
                 break;
             case 38: //xor
                 decodeBuffer.at(6) = 5;
@@ -162,6 +172,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 0; // mem read
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 1; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 0; //jump flag
                 break;
             default:
                 break;
