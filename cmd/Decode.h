@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <vector>
 #include <iostream>
+#include <stack>
 using namespace std;
 
 class Decode{
@@ -22,6 +23,7 @@ private:
     void opCodeDecoder(int a, int func);
     
 public:
+    stack<int> returnStack;
     vector<int> decodeBuffer;
     Decode(vector<int> *rf);
     ~Decode();
