@@ -25,7 +25,7 @@ public:
     vector<int> decodeBuffer;
     Decode(vector<int> *rf);
     ~Decode();
-    void run(vector<int> *ifi);
+    vector<int> run(vector<int> *ifi);
 };
 
 #endif /* defined(__CPU__Decode__) */
