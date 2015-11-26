@@ -22,7 +22,7 @@ public:
   Fetch();
   ~Fetch();
 	void init(vector<int>);            // initilizing by passing vector of instructions (int)      
-	vector<int> run(int pc_branch,int branch_signal);      // passes to it pc of branch and branch signal. returns pc and instruction
+	vector<int> run(int pc_branch,int branch_signal, int jump_signal, int jump_addr);      // passes to it pc of branch and branch signal. returns pc and instruction
 
 
 };

@@ -32,10 +32,10 @@ void CPU::run_one_cycle()
 {
   vector<int> FU_Mem;
   vector<int> FU_WB;
+  vector<int> jumpSignals;
   FU_Mem = MemoryStage.Send_FU_Mem_To_Execute(Execute_buffer);
   FU_WB = WBStage.Send_FU_WB_To_Execute(Memory_buffer);
-
-  FTemp = FetchStage.run(0, 0);
+  FTemp = FetchStage.run(0, 0, Decode_buffer[14], Decode_buffer[15]);
   DTemp = DecodeStage.run(Fetch_buffer);
   ETemp = ExecuteStage.run(Decode_buffer, FU_Mem, FU_WB);
   MTemp = MemoryStage.Memory_run(Execute_buffer);

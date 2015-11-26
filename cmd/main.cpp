@@ -38,7 +38,7 @@ int main()
   CPU CP("H:/AUC/Current Semester/CS330 Project/Advanced_Pipelined_MIPS_Simulator-CS330/cmd/Text.txt");
   
 
-  for(int i = 0; i<16; i++) {
+  for(int i = 0; i<10; i++) {
     CP.run_one_cycle();
   }
 
@@ -46,6 +46,4 @@ int main()
     cout << CP.Regs->at(i) <<endl;
 
   cout<<endl;
-for(int i = 0; i < 18; i++)
-  cout << CP.DataMemory->at(i) <<endl;
 }
