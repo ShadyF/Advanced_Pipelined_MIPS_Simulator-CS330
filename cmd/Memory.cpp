@@ -4,8 +4,12 @@
 #include "Memory.h"
 
 using namespace std;
-Memory::Memory(vector<int>* CPU_DataMemory) : DataMemory(CPU_DataMemory)
+Memory::Memory()
+{}
+
+void Memory::init(vector<int>* CPU_DataMemory)
 {
+  DataMemory = CPU_DataMemory;
 	Memory_Buffer.resize(5);
 	Mem_Forwarding_Unit.resize(4);
 };

@@ -8,14 +8,16 @@
 
 #include "Decode.h"
 
-Decode:: Decode(vector<int> *rf){
-    RegFile = *rf;
+Decode::Decode()
+{}
+
+void Decode:: init(vector<int> *rf){
+    RegFile = rf;
     decodeBuffer.resize(16); //adding two more slots, one for jump flag and the other for the address
 }
 
-vector<int> Decode:: run(vector<int> *ifi){
-    int inst = ifi->at(1);
-    
+vector<int> Decode:: run(vector<int> ifi){
+    unsigned int inst = ifi.at(1);
     decodeBuffer.at(13) = (inst >> 11) & 31; //rd
     decodeBuffer.at(12) = (inst >> 16) &  31; //rt
     decodeBuffer.at(11) = (inst >> 21) & 31;//rs
@@ -37,7 +39,7 @@ void Decode:: opCodeDecoder(int a, int func){
         switch (a) {
             case 8: //addi
                 decodeBuffer.at(6) = 4; //aluop
-                decodeBuffer.at(8) = RegFile.at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
                 decodeBuffer.at(7) = 1; //alu src
                 decodeBuffer.at(0) = 1; // reg write
                 decodeBuffer.at(1) = 0; // memtoreg
@@ -49,7 +51,8 @@ void Decode:: opCodeDecoder(int a, int func){
                 break;
             case 35: //lw
                 decodeBuffer.at(6) = 0;
-                decodeBuffer.at(8) = RegFile.at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
                 decodeBuffer.at(7) = 1; //alu src
                 decodeBuffer.at(0) = 1; // reg write
                 decodeBuffer.at(1) = 1; // memtoreg
@@ -60,8 +63,11 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(14) = 0; //jump flag
                 break;
             case 43: // sw
+              cout<<"Hena"<<endl;
                 decodeBuffer.at(6) = 0;
-                decodeBuffer.at(8) = RegFile.at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
+                
                 decodeBuffer.at(7) = 1; //alu src
                 decodeBuffer.at(0) = 0; // reg write
                 decodeBuffer.at(1) = 0; // memtoreg
@@ -70,6 +76,8 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(4) = 1; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
                 decodeBuffer.at(14) = 0; //jump flag
+                /*for(int i = 0; i<16; i++)
+                  cout << RegFile->at(i) << " ";*/
                 break;
             case 2: // j
                 decodeBuffer.at(6) = 6;
@@ -84,7 +92,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 break;
             case 3: // jal didnt do the linkinh part yet
                 decodeBuffer.at(6) = 7;
-                decodeBuffer.at(8) = RegFile.at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
                 returnStack.push(decodeBuffer.at(8));
                 decodeBuffer.at(7) = 0; //alu src
                 decodeBuffer.at(0) = 0; // reg write
@@ -97,8 +105,8 @@ void Decode:: opCodeDecoder(int a, int func){
                 break;
             case 6: //ble
                 decodeBuffer.at(6) = 1;
-                decodeBuffer.at(8) = RegFile.at(decodeBuffer.at(11)); //r1 = rs
-                decodeBuffer.at(9) = RegFile.at(decodeBuffer.at(12)); //r2 = rt
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
                 
                 if(decodeBuffer.at(8)<= decodeBuffer.at(9))
                     decodeBuffer.at(2) = 1; // branch
@@ -116,7 +124,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 break;
             case 1: // should save rs in stack
                 decodeBuffer.at(6) = 9; //new opcode for Jump Procedure
-                decodeBuffer.at(8) = RegFile.at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
                 decodeBuffer.at(7) = 0; //alu src
                 decodeBuffer.at(0) = 0; // reg write
                 decodeBuffer.at(1) = 0; // memtoreg
@@ -134,8 +142,8 @@ void Decode:: opCodeDecoder(int a, int func){
         switch (func) {
             case 42: // slt
                 decodeBuffer.at(6) = 2;
-                decodeBuffer.at(8) = RegFile.at(decodeBuffer.at(11)); //r1 = rs
-                decodeBuffer.at(9) = RegFile.at(decodeBuffer.at(12)); //r2 = rt
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
                 
                 decodeBuffer.at(7) = 0; //alu src
                 decodeBuffer.at(0) = 1; // reg write
@@ -148,8 +156,8 @@ void Decode:: opCodeDecoder(int a, int func){
                 break;
             case 32: // add
                 decodeBuffer.at(6) = 3;
-                decodeBuffer.at(8) = RegFile.at(decodeBuffer.at(11)); //r1 = rs
-                decodeBuffer.at(9) = RegFile.at(decodeBuffer.at(12)); //r2 = rt
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
                 
                 decodeBuffer.at(7) = 0; //alu src
                 decodeBuffer.at(0) = 1; // reg write
@@ -162,8 +170,8 @@ void Decode:: opCodeDecoder(int a, int func){
                 break;
             case 8: //jr
                 decodeBuffer.at(6) = 8;
-                decodeBuffer.at(8) = RegFile.at(decodeBuffer.at(11)); //r1 = rs
-                decodeBuffer.at(9) = RegFile.at(decodeBuffer.at(12)); //r2 = rt
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
                 
                 decodeBuffer.at(7) = 0; //alu src
                 decodeBuffer.at(0) = 0; // reg write
@@ -176,8 +184,8 @@ void Decode:: opCodeDecoder(int a, int func){
                 break;
             case 38: //xor
                 decodeBuffer.at(6) = 5;
-                decodeBuffer.at(8) = RegFile.at(decodeBuffer.at(11)); //r1 = rs
-                decodeBuffer.at(9) = RegFile.at(decodeBuffer.at(12)); //r2 = rt
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
                 
                 decodeBuffer.at(7) = 0; //alu src
                 decodeBuffer.at(0) = 1; // reg write

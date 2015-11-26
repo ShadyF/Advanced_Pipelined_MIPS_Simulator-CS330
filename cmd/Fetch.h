@@ -6,6 +6,7 @@ A VECTOR THAT HAS [PC , INSTRUCTION(INT) ].
 #ifndef FETCH_H
 #define FETCH_H
 
+#include <vector>
 using namespace std;
 
 class Fetch
@@ -21,7 +22,7 @@ public:
   Fetch();
   ~Fetch();
 	void init(vector<int>);            // initilizing by passing vector of instructions (int)      
-	vector<int>& run(int,int);      // passes to it pc of branch and branch signal. returns pc and instruction
+	vector<int> run(int pc_branch,int branch_signal);      // passes to it pc of branch and branch signal. returns pc and instruction
 
 
 };

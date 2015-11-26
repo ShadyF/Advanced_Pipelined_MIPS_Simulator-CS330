@@ -8,7 +8,8 @@ using namespace std;
 class WBack
 {
 public:
-	WBack(vector<int>* RegFile);
+	WBack();
+  void init(vector<int>* RegFile);
 	void WB_run(vector <int>);			//Run (Doesn't return a buffer) (Final Stage)
 	vector <int> Send_FU_WB_To_Execute(vector <int>);	//returns Forwarding Unit
 	~WBack();

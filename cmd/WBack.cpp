@@ -3,8 +3,12 @@
 #include "Memory.h"
 using namespace std;
 
-WBack::WBack(vector<int>* Regs) : RegFile(Regs)
+WBack::WBack()
+{}
+
+void WBack::init(vector<int>* Regs)
 {
+  RegFile = Regs;
 	WB_Forwarding_Unit.resize(4);
 };
 WBack::~WBack()

@@ -18,16 +18,17 @@ using namespace std;
 class Decode{
 private:
     vector<int> IFB;
-    vector<int> RegFile;
+    vector<int> *RegFile;
     int branch;
     void opCodeDecoder(int a, int func);
     
 public:
     stack<int> returnStack;
     vector<int> decodeBuffer;
-    Decode(vector<int> *rf);
+    Decode();
     ~Decode();
-    vector<int> run(vector<int> *ifi);
+    void init(vector<int> *rf);
+    vector<int> run(vector<int> ifi);
 };
 
 #endif /* defined(__CPU__Decode__) */
