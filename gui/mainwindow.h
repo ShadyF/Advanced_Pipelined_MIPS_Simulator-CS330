@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include "CPU.h"
+#include <vector>
+#include "ui_mainwindow.h"
 #include <QMainWindow>
 #include <QFileDialog>
 
@@ -17,6 +19,10 @@ public:
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
   CPU CP;
+  std::vector< std::pair<QLabel*, int> > Labels;
+  int used[10];
+  int numOfLabelsToUpdate;
+  int count[10];
 
 private slots:
   void on_NextCycle_clicked();

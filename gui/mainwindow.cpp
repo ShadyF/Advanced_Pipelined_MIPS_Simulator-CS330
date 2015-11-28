@@ -8,6 +8,31 @@ MainWindow::MainWindow(QWidget *parent) :
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
+  ui->slot0->setText("");
+  ui->slot1->setText("");
+  ui->slot2->setText("");
+  ui->slot3->setText("");
+  ui->slot4->setText("");
+  ui->slot5->setText("");
+  ui->slot6->setText("");
+  ui->slot7->setText("");
+  ui->slot8->setText("");
+  ui->slot9->setText("");
+  ui->slot10->setText("");
+  Labels.push_back(make_pair(ui->slot0, -2));
+  Labels.push_back(make_pair(ui->slot1, -2));
+  Labels.push_back(make_pair(ui->slot2, -2));
+  Labels.push_back(make_pair(ui->slot3, -2));
+  Labels.push_back(make_pair(ui->slot4, -2));
+  Labels.push_back(make_pair(ui->slot5, -2));
+  Labels.push_back(make_pair(ui->slot6, -2));
+  Labels.push_back(make_pair(ui->slot7, -2));
+  Labels.push_back(make_pair(ui->slot8, -2));
+  Labels.push_back(make_pair(ui->slot9, -2));
+  Labels.push_back(make_pair(ui->slot10, -2));
+  memset(used, 0, sizeof(used));
+  memset(count, 0, sizeof(count));
+  numOfLabelsToUpdate = 0;
 }
 
 MainWindow::~MainWindow()
@@ -17,9 +42,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_NextCycle_clicked()
 {
+  static int w = 0;   //used static int because using numOfLabelsToUpdate caused a wierd bug
+                      //where checking if it was < 11 caused it to be forced to 1
   //QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
   //"",
   //tr("Files (.)"));
+  if (w < 11)
+    w++;
+
   CP.run_one_cycle();
   ui->ClockLabel->setText("Clock: " + QString::number(CP.clock - 1));
   ui->FetchBrowser->setText("PC = " + QString::number(CP.FetchStage.pc - 1) +"\r\n" +QString::fromStdString(CP.Parse.getInst(CP.FetchStage.pc - 1)));
@@ -79,4 +109,38 @@ void MainWindow::on_NextCycle_clicked()
   ui->D30->setText(QString::number(CP.DataMemory->at(30)));
   ui->D31->setText(QString::number(CP.DataMemory->at(31)));
 
+  for(int i = 0; i < w; i++)
+  {
+      if(Labels[i].first->text() == "" && CP.FetchStage.pc - 1 > -1)
+      {
+        Labels[i].first->setText("Instruction " +QString::number(CP.FetchStage.pc - 1)+": IF -->" );
+        Labels[i].second = CP.FetchStage.pc - 1;
+        used[i] = 1;
+      }
+      else if(Labels[i].second == CP.DecodeStage.pc && used[i] == 1)
+      {
+        Labels[i].first->setText(Labels[i].first->text() + "DC -->");
+        used[i] = 2;
+      }
+      else if(Labels[i].second == CP.ExecuteStage.pc && used[i] == 2)
+      {
+        Labels[i].first->setText(Labels[i].first->text() + "EX -->");
+        used[i] = 3;
+      }
+      else if(Labels[i].second == CP.MemoryStage.pc && used[i] == 3)
+      {
+        Labels[i].first->setText(Labels[i].first->text() + "MEM-->");
+        used[i] = 4;
+      }
+      else if(Labels[i].second == CP.WBStage.pc && used[i] == 4)
+      {
+        Labels[i].first->setText(Labels[i].first->text() + "WB");
+        used[i] = 5;
+      }
+      else if(used[i] < 5 && used[i] > 0 && count[i]+used[i] < 5)
+      {
+        Labels[i].first->setText(Labels[i].first->text() + "## -->");
+        count[i]++;
+      }
+    }
 }
