@@ -71,8 +71,8 @@ std::vector<int> Execute::run(std::vector<int> Decode_buffer, std::vector<int> F
 	//ALU Operation
 	switch (ALU_op)
 	{
-	case 0:   //lw or sw
-		alu_res = RS_addr + Imm;
+	case 0:
+		alu_res = alu_first_op + alu_second_op;
 		break;
 		//case 1://ble
 	case 2://slt
