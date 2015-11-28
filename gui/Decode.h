@@ -21,7 +21,7 @@ private:
     vector<int> *RegFile;
     int branch;
     void opCodeDecoder(int a, int func);
-    
+
 public:
     int pc;
     stack<int> returnStack;

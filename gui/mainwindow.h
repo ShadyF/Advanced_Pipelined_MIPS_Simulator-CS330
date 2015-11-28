@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "CPU.h"
 #include <QMainWindow>
+#include <QFileDialog>
 
 namespace Ui {
   class MainWindow;
@@ -14,6 +16,10 @@ class MainWindow : public QMainWindow
 public:
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
+  CPU CP;
+
+private slots:
+  void on_NextCycle_clicked();
 
 private:
   Ui::MainWindow *ui;

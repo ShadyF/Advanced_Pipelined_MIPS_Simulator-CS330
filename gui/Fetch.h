@@ -14,16 +14,16 @@ class Fetch
 private:
 	int instruction;                     // instruction
 	vector<int> IF_ID_Buffer;           // vector containing pc and instruction that will be passed to the next stage
-	vector<int> temp;          
+	vector<int> temp;
 
 public:
   int pc;                               //Program Counter
 
   Fetch();
   ~Fetch();
-	void init(vector<int>);            // initilizing by passing vector of instructions (int)      
-	vector<int> run(int pc_branch,int branch_signal, int jump_signal, int jump_addr);      // passes to it pc of branch and branch signal. returns pc and instruction
+        void init(vector<int>);            // initilizing by passing vector of instructions (int)
+        vector<int> run(int pc_branch,int branch_signal, int jump_signal, int jump_addr);      // passes to it pc of branch and branch signal. returns pc and instruction
 
 };
 
-#endif;
+#endif

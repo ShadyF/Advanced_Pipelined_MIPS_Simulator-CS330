@@ -14,6 +14,7 @@ public:
 	vector <int> Send_FU_WB_To_Execute(vector <int>);	//returns Forwarding Unit
 	~WBack();
 
+  int pc;
 	vector <int> WB_Forwarding_Unit;		//WB + Mux Result + RT/RD Address
 	//vector <int> Memory_Buffer;			//Taking Memory_Buffer.
 	vector<int>* RegFile;

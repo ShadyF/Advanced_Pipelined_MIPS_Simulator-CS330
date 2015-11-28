@@ -4,7 +4,7 @@
 
 Execute::Execute()
 {
-	Execute_buffer.resize(9);
+	Execute_buffer.resize(10);
 }
 
 Execute::~Execute()
@@ -13,6 +13,7 @@ Execute::~Execute()
 std::vector<int> Execute::run(std::vector<int> Decode_buffer, std::vector<int> F_DM,
 	std::vector<int> F_WB)
 {
+  pc = Decode_buffer[16];
 	reg_dest = Decode_buffer[5]; ALU_op = Decode_buffer[6]; ALU_src = Decode_buffer[7];
 	R1 = Decode_buffer[8]; R2 = Decode_buffer[9];
 	Imm = Decode_buffer[10];
@@ -75,6 +76,7 @@ std::vector<int> Execute::run(std::vector<int> Decode_buffer, std::vector<int> F
 	Execute_buffer[6] = alu_res;
 	Execute_buffer[7] = (reg_dest) ? RD_addr : RT_addr;
 	Execute_buffer[8] = R2;
+  Execute_buffer[9] = pc;
 	return Execute_buffer;
 
 }

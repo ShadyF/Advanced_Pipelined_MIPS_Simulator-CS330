@@ -18,6 +18,7 @@ WBack::~WBack()
 
 void WBack::WB_run(vector<int> Memory_Buffer)
 {
+  pc = Memory_Buffer[5];
 	// Extracting Memory Buffer
 	int RegWrite = Memory_Buffer[0],
 		MemToReg = Memory_Buffer[1],

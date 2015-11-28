@@ -6,25 +6,28 @@
 #include "Execute.h"
 #include "Memory.h"
 #include "WBack.h"
-
+#include "Parser.h"
 class CPU
 {
 private:
-	std::vector<int> Fetch_buffer, Decode_buffer, Execute_buffer, Memory_buffer;
+  //std::vector<int> Fetch_buffer, Decode_buffer, Execute_buffer, Memory_buffer;
   std::vector<int> FTemp, DTemp, ETemp, MTemp;
+  vector<int> FU_Mem;
+  vector<int> FU_WB;
 
 public:
-	std::vector<int>* Regs;
-  std::vector<int>* DataMemory;
-	std::vector<int> InsMemory;
+        std::vector<int>* Regs;
+        std::vector<int>* DataMemory;
+        std::vector<int> InsMemory;
+std::vector<int> Fetch_buffer, Decode_buffer, Execute_buffer, Memory_buffer;
+        int clock;
 
-	int clock;
-	
   Fetch FetchStage;
   Decode DecodeStage;
   Execute ExecuteStage;
   Memory MemoryStage;
   WBack WBStage;
+  Parser Parse;
 
 	CPU(std::string); 				//should take text file here
 	~CPU();
