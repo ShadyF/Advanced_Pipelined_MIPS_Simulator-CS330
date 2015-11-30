@@ -52,6 +52,13 @@ void CPU::run_one_cycle()
     Decode_buffer[15] = DTemp[15];
     return;
   }
+  else if (DTemp[14] == 2) //jal
+  {
+      Fetch_buffer[0] = -1;
+      Decode_buffer = DTemp;
+      Decode_buffer = DTemp;
+      return;
+  }
   else if (ExecuteStage.stall == 1)
   {
       Execute_buffer[9] = -1;

@@ -98,9 +98,9 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(14) = 1; //jump flag
                 break;
             case 3: // jal didnt do the linkinh part yet
-                decodeBuffer.at(6) = 7;
-                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
-                returnStack.push(decodeBuffer.at(8));
+                decodeBuffer.at(6) = 4;
+                decodeBuffer.at(8) = decodeBuffer.at(16); //r1 = rs
+                //returnStack.push(decodeBuffer.at(8));
                 decodeBuffer.at(7) = 1; //alu src
                 decodeBuffer.at(0) = 1; // reg write
                 decodeBuffer.at(1) = 0; // memtoreg
@@ -109,6 +109,9 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
                 decodeBuffer.at(12) = 15; //rt
+                decodeBuffer.at(11) = decodeBuffer.at(16);//rs
+                //cout<<decodeBuffer.at(11)<< " "<< decodeBuffer.at(10)<< " "<<decodeBuffer.at;
+                decodeBuffer.at(10) = 1; //imm
                 decodeBuffer.at(14) = 2; //jump flag
                 break;
             case 6: //ble
@@ -130,9 +133,25 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
                 decodeBuffer.at(14) = 0; //jump flag
                 break;
-            case 1: // should save rs in stack
-                decodeBuffer.at(6) = 9; //new opcode for Jump Procedure
+            case 1: // jump procedure should save rs in stack
+                decodeBuffer.at(6) = 6; //new opcode for Jump Procedure
                 decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
+                returnStack.push(decodeBuffer.at(16)+1);
+                decodeBuffer.at(7) = 0; //alu src
+                decodeBuffer.at(0) = 0; // reg write
+                decodeBuffer.at(1) = 0; // memtoreg
+                decodeBuffer.at(2) = 0; // branch
+                decodeBuffer.at(3) = 0; // mem read
+                decodeBuffer.at(4) = 0; // mem write
+                decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
+                decodeBuffer.at(14) = 1; //jump flag
+                break;
+             case 63: //return procedure
+                cout<<"Da5al"<<returnStack.top()<<endl;
+                decodeBuffer.at(6) = 6; //new opcode for Jump Procedure
+                decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
+                decodeBuffer.at(15) = returnStack.top();
+                returnStack.pop();
                 decodeBuffer.at(7) = 0; //alu src
                 decodeBuffer.at(0) = 0; // reg write
                 decodeBuffer.at(1) = 0; // memtoreg

@@ -470,13 +470,9 @@ vector<int> Parser::run(string filename)
 
 		else if (Op == "return")
 		{
-
-
 			binary_ins = "11111100000000000000000000000000";
 			bitset<32> int_ins(binary_ins);
 			Ins_mem_int.push_back(int(int_ins.to_ulong()));
-
-
 		}
 
 	}
