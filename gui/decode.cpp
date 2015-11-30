@@ -189,6 +189,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
                 decodeBuffer.at(14) = 1; //jump flag
+                decodeBuffer.at(15) = RegFile->at(decodeBuffer.at(11));
                 break;
             case 38: //xor
                 decodeBuffer.at(6) = 5;

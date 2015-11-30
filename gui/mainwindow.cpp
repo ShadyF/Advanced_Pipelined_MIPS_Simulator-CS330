@@ -4,9 +4,10 @@
 #include <iostream>
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
-  CP("Text.txt"),
+  CP(),
   ui(new Ui::MainWindow)
 {
+  CP.init("/Users/macbookpro/Desktop/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Text.txt");
   ui->setupUi(this);
   ui->slot0->setText("");
   ui->slot1->setText("");
@@ -44,9 +45,6 @@ void MainWindow::on_NextCycle_clicked()
 {
   static int w = 0;   //used static int because using numOfLabelsToUpdate caused a wierd bug
                       //where checking if it was < 11 caused it to be forced to 1
-  //QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-  //"",
-  //tr("Files (.)"));
   if (w < 11)
     w++;
 
@@ -143,4 +141,15 @@ void MainWindow::on_NextCycle_clicked()
         count[i]++;
       }
     }
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+
+    /*QString filename = QFileDialog::getOpenFileName(this, tr("Open File"),
+    "",
+    tr("Files (.)"));
+    std::string utf8_text = filename.toUtf8().constData();*/
+
+    CP.init("/Users/macbookpro/Desktop/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Text.txt");
 }

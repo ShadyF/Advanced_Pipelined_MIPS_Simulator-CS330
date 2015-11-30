@@ -5,6 +5,7 @@
 #include <vector>
 #include "ui_mainwindow.h"
 #include <QMainWindow>
+#include <QString>
 #include <QFileDialog>
 
 namespace Ui {
@@ -23,9 +24,12 @@ public:
   int used[10];
   int numOfLabelsToUpdate;
   int count[10];
+  QString filename = "";
 
 private slots:
   void on_NextCycle_clicked();
+
+  void on_pushButton_clicked();
 
 private:
   Ui::MainWindow *ui;

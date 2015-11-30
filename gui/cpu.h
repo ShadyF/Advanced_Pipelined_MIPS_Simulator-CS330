@@ -29,8 +29,9 @@ std::vector<int> Fetch_buffer, Decode_buffer, Execute_buffer, Memory_buffer;
   WBack WBStage;
   Parser Parse;
 
-	CPU(std::string); 				//should take text file here
+    CPU(); 				//should take text file here
 	~CPU();
+    void init(std::string filename);
 	void run_one_cycle();
 	void rst();
 

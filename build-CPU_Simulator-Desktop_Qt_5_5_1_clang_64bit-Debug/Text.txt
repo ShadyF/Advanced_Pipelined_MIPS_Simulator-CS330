@@ -1,5 +1,5 @@
 addi 0,0,1
-jr 1
+jr 0
 addi 0,0,1
 sw 0, 0(0)
 addi 0,0,1

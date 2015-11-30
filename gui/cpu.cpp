@@ -4,7 +4,9 @@
 #include "Parser.h"
 #include "CPU.h"
 
-CPU::CPU(std::string filename)
+CPU::CPU()
+{}
+void CPU::init(std::string filename)
 {
   DataMemory = new vector<int>;
   Regs = new vector<int>;
