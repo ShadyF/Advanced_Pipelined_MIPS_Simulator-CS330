@@ -114,7 +114,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(10) = 1; //imm
                 decodeBuffer.at(14) = 2; //jump flag
                 break;
-            case 6: //ble
+            case 4: //ble
                 decodeBuffer.at(6) = 1;
                 decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
                 decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
@@ -147,7 +147,6 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(14) = 1; //jump flag
                 break;
              case 63: //return procedure
-                cout<<"Da5al"<<returnStack.top()<<endl;
                 decodeBuffer.at(6) = 6; //new opcode for Jump Procedure
                 decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
                 decodeBuffer.at(15) = returnStack.top();

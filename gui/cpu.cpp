@@ -39,7 +39,7 @@ void CPU::run_one_cycle()
 {
   FU_Mem = MemoryStage.Send_FU_Mem_To_Execute(Execute_buffer);
   FU_WB = WBStage.Send_FU_WB_To_Execute(Memory_buffer);
-  FTemp = FetchStage.run(0, 0, Decode_buffer[14], Decode_buffer[15]);
+  FTemp = FetchStage.run(DecodeStage.pc, Decode_buffer[10], Decode_buffer[2], Decode_buffer[14], Decode_buffer[15]);
   ETemp = ExecuteStage.run(Decode_buffer, FU_Mem, FU_WB);
   MTemp = MemoryStage.Memory_run(Execute_buffer, FU_Mem);
   WBStage.WB_run(Memory_buffer);                                    //write in first half
@@ -57,6 +57,13 @@ void CPU::run_one_cycle()
       Fetch_buffer[0] = -1;
       Decode_buffer = DTemp;
       Decode_buffer = DTemp;
+      return;
+  }
+  else if(DTemp[2])
+  {
+      Fetch_buffer[0] = -1;
+      Decode_buffer[2] = DTemp[2];
+      Decode_buffer[10] = DTemp[10];
       return;
   }
   else if (ExecuteStage.stall == 1)

@@ -26,13 +26,13 @@ void Fetch::init(vector<int> Instruction_Mem)
 }
 
 
-vector<int> Fetch:: run(int pc_branch, int branch_signal, int jump_flag, int jump_addr)
+vector<int> Fetch:: run(int pc_inst, int pc_branch, int branch_signal, int jump_flag, int jump_addr)
 {
   int instruction;
 
   if(branch_signal)
   {
-    pc += pc_branch +1;
+    pc = pc_inst + pc_branch +1;
     instruction = temp.at(pc);
     IF_ID_Buffer[0] = pc;
     IF_ID_Buffer[1] = instruction;
