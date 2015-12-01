@@ -1,4 +1,4 @@
-##ifndef CPU_H
+#ifndef CPU_H
 #define CPU_H
 
 #include "Fetch.h"

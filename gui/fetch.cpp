@@ -39,6 +39,7 @@ vector<int> Fetch::run(bool* stall, bool check_branch, int pc_inst, int branch_s
 
 	if (check_branch && BTB[pc_inst % 10][2] != branch_signal)
 	{
+        *stall = true;
 		BTB[pc_inst % 10][2] = !BTB[pc_inst % 10][2];
 		pc = BTB[pc_inst % 10][1];
 		instruction = temp.at(pc);
