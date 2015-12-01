@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
   memset(used, 0, sizeof(used));
   memset(count, 0, sizeof(count));
   numOfLabelsToUpdate = 0;
+  QWidget::setWindowTitle ("Pipelined CPU Simulator with BTB");
 }
 
 MainWindow::~MainWindow()
@@ -106,6 +107,16 @@ void MainWindow::on_NextCycle_clicked()
   ui->D29->setText(QString::number(CP.DataMemory->at(29)));
   ui->D30->setText(QString::number(CP.DataMemory->at(30)));
   ui->D31->setText(QString::number(CP.DataMemory->at(31)));
+
+
+
+  if(!CP.DecodeStage.returnStack.empty())
+  {
+    ui->RS->setText(QString::number(CP.DecodeStage.returnStack.top()));
+  }
+  else{
+      ui->RS->setText(QString::number(-1));
+    }
 
   for(int i = 0; i < w; i++)
   {

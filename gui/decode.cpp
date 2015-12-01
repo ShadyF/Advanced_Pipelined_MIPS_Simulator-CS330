@@ -149,8 +149,14 @@ void Decode:: opCodeDecoder(int a, int func){
              case 63: //return procedure
                 decodeBuffer.at(6) = 6; //new opcode for Jump Procedure
                 decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
-                decodeBuffer.at(15) = returnStack.top();
-                returnStack.pop();
+                if(!returnStack.empty()){
+                    decodeBuffer.at(15) = returnStack.top();
+                    returnStack.pop();
+                    decodeBuffer.at(14) = 1; //jump flag
+                }
+                else{
+                    decodeBuffer.at(14) = 0;
+                }
                 decodeBuffer.at(7) = 0; //alu src
                 decodeBuffer.at(0) = 0; // reg write
                 decodeBuffer.at(1) = 0; // memtoreg
@@ -158,7 +164,7 @@ void Decode:: opCodeDecoder(int a, int func){
                 decodeBuffer.at(3) = 0; // mem read
                 decodeBuffer.at(4) = 0; // mem write
                 decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
-                decodeBuffer.at(14) = 1; //jump flag
+
                 break;
             default:
                 break;
