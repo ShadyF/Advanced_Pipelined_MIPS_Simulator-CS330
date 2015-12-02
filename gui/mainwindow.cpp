@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
   CP(),
   ui(new Ui::MainWindow)
 {
-  CP.init("/Users/macbookpro/Desktop/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Text.txt");
+  //CP.init("/Users/macbookpro/Desktop/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Text.txt"); //amr's file
+  CP.init("H:/AUC/Current Semester/CS330 Project/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Text.txt"); //Shady's file
   ui->setupUi(this);
   ui->slot0->setText("");
   ui->slot1->setText("");
@@ -51,7 +52,7 @@ void MainWindow::on_NextCycle_clicked()
 
   CP.run_one_cycle();
   ui->ClockLabel->setText("Clock: " + QString::number(CP.clock - 1));
-  ui->FetchBrowser->setText("PC = " + QString::number(CP.FetchStage.pc - 1) +"\r\n" +QString::fromStdString(CP.Parse.getInst(CP.FetchStage.pc - 1)));
+  ui->FetchBrowser->setText("PC = " + QString::number(CP.FetchStage.display_pc) +"\r\n" +QString::fromStdString(CP.Parse.getInst(CP.FetchStage.display_pc)));
   ui->DecodeBrowser->setText("PC = " + QString::number(CP.DecodeStage.pc) +"\r\n" +QString::fromStdString(CP.Parse.getInst(CP.DecodeStage.pc)));
   ui->ExecuteBrowser->setText("PC = " + QString::number(CP.ExecuteStage.pc) +"\r\n" +QString::fromStdString(CP.Parse.getInst(CP.ExecuteStage.pc)));
   ui->MemoryBrowser->setText("PC = " + QString::number(CP.MemoryStage.pc) +"\r\n" +QString::fromStdString(CP.Parse.getInst(CP.MemoryStage.pc)));
@@ -120,10 +121,10 @@ void MainWindow::on_NextCycle_clicked()
 
   for(int i = 0; i < w; i++)
   {
-      if(Labels[i].first->text() == "" && CP.FetchStage.pc - 1 > -1)
+      if(Labels[i].first->text() == "" && CP.FetchStage.display_pc > -1)
       {
-        Labels[i].first->setText("Instruction " +QString::number(CP.FetchStage.pc - 1)+": IF -->" );
-        Labels[i].second = CP.FetchStage.pc - 1;
+        Labels[i].first->setText("Instruction " +QString::number(CP.FetchStage.display_pc)+": IF -->" );
+        Labels[i].second = CP.FetchStage.display_pc;
         used[i] = 1;
       }
       else if(Labels[i].second == CP.DecodeStage.pc && used[i] == 1)
@@ -152,15 +153,4 @@ void MainWindow::on_NextCycle_clicked()
         count[i]++;
       }
     }
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-
-    /*QString filename = QFileDialog::getOpenFileName(this, tr("Open File"),
-    "",
-    tr("Files (.)"));
-    std::string utf8_text = filename.toUtf8().constData();*/
-
-    CP.init("/Users/macbookpro/Desktop/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Text.txt");
 }

@@ -36,15 +36,15 @@ void Fetch::init(vector<int> Instruction_Mem)
 vector<int> Fetch::run(bool* stall, bool check_branch, int pc_inst, int branch_signal, int jump_flag, int jump_addr)
 {
 	int instruction;
-
 	if (check_branch && BTB[pc_inst % 10][2] != branch_signal)
 	{
         *stall = true;
-		BTB[pc_inst % 10][2] = !BTB[pc_inst % 10][2];
-		pc = BTB[pc_inst % 10][1];
+                BTB[pc_inst % 10][2] = !BTB[pc_inst % 10][2];
+                pc = BTB[pc_inst % 10][1];
 		instruction = temp.at(pc);
 		IF_ID_Buffer[0] = pc;
 		IF_ID_Buffer[1] = instruction;
+		display_pc = pc;
 		pc++;
 	}
 
@@ -54,6 +54,7 @@ vector<int> Fetch::run(bool* stall, bool check_branch, int pc_inst, int branch_s
 		instruction = temp.at(pc);
 		IF_ID_Buffer[0] = pc;
 		IF_ID_Buffer[1] = instruction;
+		display_pc = pc;
 		pc++;
 	}
 
@@ -62,17 +63,21 @@ vector<int> Fetch::run(bool* stall, bool check_branch, int pc_inst, int branch_s
 		instruction = temp.at(pc);
 		IF_ID_Buffer[0] = pc;
 		IF_ID_Buffer[1] = instruction;
+		display_pc = pc;
 		pc++;
 	}
 	else
 	{
 		pc = -1;
+		display_pc = pc;
 		IF_ID_Buffer[0] = pc;
 		IF_ID_Buffer[1] = 0;
 	}
 
 	int opcode = (IF_ID_Buffer[1] >> 26) & 63;
 	int imm = IF_ID_Buffer[1] & 65535;
+	if (imm & 0x8000)
+		imm = 0xFFFF0000 | imm;
 	if (opcode == 4)
 	{
 		if (BTB[pc - 1 % 10][0] == -1)
@@ -80,10 +85,9 @@ vector<int> Fetch::run(bool* stall, bool check_branch, int pc_inst, int branch_s
 			BTB[pc - 1 % 10][0] = pc - 1;
 			BTB[pc - 1 % 10][1] = pc + imm;
 			BTB[pc - 1 % 10][2] = 0;
-			pc++;
 		}
 		else
-			pc = (BTB[pc - 1 % 10][2]) ? BTB[pc - 1 % 10][1] : pc + 1;
+		  pc = (BTB[pc - 1 % 10][2]) ? BTB[pc - 1 % 10][1] : pc;
 	}
 	return IF_ID_Buffer;
 }

@@ -24,18 +24,22 @@ vector<int> Decode::run(vector<int> ifi){
 		temp[16] = -1;
 		return temp;
 	}
-	unsigned int inst = ifi.at(1);
+	int inst = ifi.at(1);
 	decodeBuffer.at(13) = (inst >> 11) & 31; //rd
 	decodeBuffer.at(12) = (inst >> 16) & 31; //rt
 	decodeBuffer.at(11) = (inst >> 21) & 31;//rs
-	decodeBuffer.at(10) = inst & 65535; //imm
 	decodeBuffer.at(15) = inst & 67108863; // jump
 	decodeBuffer.at(16) = pc;
 	decodeBuffer[17] = 0;
+
+	int imm = inst & 65535;
+	if (imm & 0x8000)
+		imm = 0xFFFF0000 | imm;
 	int opcode = (inst >> 26) & 63;
 	int shamt = (inst >> 6) & 31;
 	int func = inst & 63;
 
+	decodeBuffer.at(10) = imm; //signed imm
 	opCodeDecoder(opcode, func);
 	return decodeBuffer;
 }
