@@ -356,6 +356,7 @@ vector<int> Parser::run(string filename)
 		}
 		else if (Op == "jr")
 		{
+            cout << "i:" << i <<endl;
 			for (int i = start; i < ins_tofetch.length(); i++)
 			{
 				// if you find no comma , space, and count=0 then this is target address
@@ -368,12 +369,13 @@ vector<int> Parser::run(string filename)
 				{
 					++no_comma;
 				}
-				regs = stoi(s);
-				binary_ins = "000000" + regs.to_string() + "000000000000000001000";
-				bitset<32> int_ins(binary_ins);
-				Ins_mem_int.push_back(int(int_ins.to_ulong()));
 
 			}
+            regs = std::stoi(s);
+            binary_ins = "000000" + regs.to_string() + "000000000000000001000";
+            bitset<32> int_ins(binary_ins);
+            cout<<" IN PARSER" << (int(int_ins.to_ulong()))<<endl;
+            Ins_mem_int.push_back(int(int_ins.to_ulong()));
 
 		}
 		else if (Op == "ble")
@@ -383,7 +385,7 @@ vector<int> Parser::run(string filename)
 				// if you find no comma , space, and count=0 then this is $t
 				if ((ins_tofetch[i] != ' ') && (ins_tofetch[i] != ',') && (no_comma == 0))
 				{
-					t += ins_tofetch[i];
+                    s += ins_tofetch[i];
 				}
 				// if you find a comma then ++ number of commas
 				else if (ins_tofetch[i] == ',')
@@ -393,7 +395,7 @@ vector<int> Parser::run(string filename)
 				// if you find a comma and didnt find a space then this is $s
 				else if ((no_comma == 1) && (ins_tofetch[i] != ' '))
 				{
-					s += ins_tofetch[i];
+                    t += ins_tofetch[i];
 				}
 				// if you find 2 commas and didnt find a space then this is imm
 				else if ((no_comma == 2) && (ins_tofetch[i] != ' '))
@@ -407,7 +409,7 @@ vector<int> Parser::run(string filename)
 
 			binary_ins = "000100" + regs.to_string() + regt.to_string() + regimm.to_string();
 			bitset<32> int_ins(binary_ins);
-			Ins_mem_int.push_back(int(int_ins.to_ulong()));
+            Ins_mem_int.push_back(int(int_ins.to_ulong()));
 
 		}
 

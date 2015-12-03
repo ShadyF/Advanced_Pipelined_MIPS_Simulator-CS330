@@ -1,0 +1,7 @@
+addi 0, 0, 1
+jump 5
+lw 0, 0(8)
+add 1, 0, 0
+addi 2, 1, 0
+xor 2, 0, 1
+return

@@ -7,8 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
   CP(),
   ui(new Ui::MainWindow)
 {
-  //CP.init("/Users/macbookpro/Desktop/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Text.txt"); //amr's file
-  CP.init("H:/AUC/Current Semester/CS330 Project/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Text.txt"); //Shady's file
+  CP.init("/Users/macbookpro/Desktop/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Ble.txt"); //amr's file
+  //CP.init("H:/AUC/Current Semester/CS330 Project/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Text.txt"); //Shady's file
   ui->setupUi(this);
   ui->slot0->setText("");
   ui->slot1->setText("");

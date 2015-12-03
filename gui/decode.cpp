@@ -26,7 +26,7 @@ vector<int> Decode::run(vector<int> ifi){
 	}
 	int inst = ifi.at(1);
 	decodeBuffer.at(13) = (inst >> 11) & 31; //rd
-	decodeBuffer.at(12) = (inst >> 16) & 31; //rt
+    decodeBuffer.at(12) = (inst >> 16) & 31; //rt
 	decodeBuffer.at(11) = (inst >> 21) & 31;//rs
 	decodeBuffer.at(15) = inst & 67108863; // jump
 	decodeBuffer.at(16) = pc;
@@ -115,7 +115,7 @@ void Decode::opCodeDecoder(int a, int func){
 			decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
 			decodeBuffer.at(12) = 15; //rt
 			decodeBuffer.at(11) = decodeBuffer.at(16);//rs
-			//cout<<decodeBuffer.at(11)<< " "<< decodeBuffer.at(10)<< " "<<decodeBuffer.at;
+            //cout<<decodeBuffer.at(11)<< " "<< decodeBuffer.at(10)<< " "<<decodeBuffer.at;
 			decodeBuffer.at(10) = 1; //imm
 			decodeBuffer.at(14) = 2; //jump flag
 			break;
@@ -123,6 +123,7 @@ void Decode::opCodeDecoder(int a, int func){
 			decodeBuffer.at(6) = 1;
 			decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
 			decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
+            cout<<decodeBuffer.at(8)<<" "<<decodeBuffer.at(9)<<endl;
 
 			if (decodeBuffer.at(8) <= decodeBuffer.at(9))
 				decodeBuffer.at(2) = 1; // branch
@@ -219,7 +220,9 @@ void Decode::opCodeDecoder(int a, int func){
 			decodeBuffer.at(4) = 0; // mem write
 			decodeBuffer.at(5) = 0; // reg dest (1 = rd) , (0 = rt)
 			decodeBuffer.at(14) = 1; //jump flag
-			decodeBuffer.at(15) = RegFile->at(decodeBuffer.at(11));
+            decodeBuffer.at(15) = RegFile->at(decodeBuffer.at(11));
+            //cout<<RegFile->at(decodeBuffer.at(11))<<endl;
+            //cout<<decodeBuffer.at(11)<<endl;
 			break;
 		case 38: //xor
 			decodeBuffer.at(6) = 5;

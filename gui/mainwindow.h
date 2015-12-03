@@ -29,8 +29,6 @@ public:
 private slots:
   void on_NextCycle_clicked();
 
-  void on_pushButton_clicked();
-
 private:
   Ui::MainWindow *ui;
 };
