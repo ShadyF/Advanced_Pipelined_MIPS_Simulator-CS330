@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
   CP(),
   ui(new Ui::MainWindow)
 {
-  CP.init("/Users/macbookpro/Desktop/Advanced_Pipelined_MIPS_Simulator-CS330/gui/BTB.txt"); //amr's file
+  //CP.init("/Users/macbookpro/Desktop/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Lwsw.txt"); //amr's file
   //CP.init("H:/AUC/Current Semester/CS330 Project/Advanced_Pipelined_MIPS_Simulator-CS330/gui/Text.txt"); //Shady's file
   ui->setupUi(this);
   ui->slot0->setText("");
@@ -153,4 +153,13 @@ void MainWindow::on_NextCycle_clicked()
         count[i]++;
       }
     }
+}
+
+void MainWindow::on_Load_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+             tr("Load File"), "/home", tr("Text Files (*.txt)"));
+    std::string location = fileName.toUtf8().constData();
+    CP.init(location);
+    ui->NextCycle->setEnabled(true);
 }

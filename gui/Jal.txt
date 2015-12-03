@@ -1,7 +1,7 @@
 addi 0, 0, 1
 add 2, 0, 1
 xor 3, 2, 1
-jal 6
+jal 5
 addi 0, 0, 1
 add 2, 0, 1
 xor 3, 2, 1

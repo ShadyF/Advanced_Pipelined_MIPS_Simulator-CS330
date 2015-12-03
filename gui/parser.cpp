@@ -374,7 +374,6 @@ vector<int> Parser::run(string filename)
             regs = std::stoi(s);
             binary_ins = "000000" + regs.to_string() + "000000000000000001000";
             bitset<32> int_ins(binary_ins);
-            cout<<" IN PARSER" << (int(int_ins.to_ulong()))<<endl;
             Ins_mem_int.push_back(int(int_ins.to_ulong()));
 
 		}

@@ -154,6 +154,7 @@ public:
     QLabel *slot10_2;
     QTextEdit *RS;
     QLabel *label_56;
+    QPushButton *Load;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
     QMenuBar *menuBar;
@@ -515,6 +516,7 @@ public:
         label_50->setFont(font);
         NextCycle = new QPushButton(centralWidget);
         NextCycle->setObjectName(QStringLiteral("NextCycle"));
+        NextCycle->setEnabled(false);
         NextCycle->setGeometry(QRect(1044, 510, 101, 23));
         label_51 = new QLabel(centralWidget);
         label_51->setObjectName(QStringLiteral("label_51"));
@@ -626,6 +628,9 @@ public:
         label_56 = new QLabel(centralWidget);
         label_56->setObjectName(QStringLiteral("label_56"));
         label_56->setGeometry(QRect(410, 480, 121, 16));
+        Load = new QPushButton(centralWidget);
+        Load->setObjectName(QStringLiteral("Load"));
+        Load->setGeometry(QRect(930, 510, 101, 23));
         MainWindow->setCentralWidget(centralWidget);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -986,6 +991,7 @@ public:
 "</style></head><body style=\" font-family:'.Helvetica Neue DeskInterface'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt;\">0</span></p></body></html>", 0));
         label_56->setText(QApplication::translate("MainWindow", "Return Stack Top", 0));
+        Load->setText(QApplication::translate("MainWindow", "Load File", 0));
     } // retranslateUi
 
 };
