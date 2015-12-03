@@ -20,7 +20,7 @@ private:
 	vector<int> IFB;
 	vector<int> *RegFile;
 	int branch;
-	void opCodeDecoder(int a, int func);
+    void opCodeDecoder(int a, int func, std::vector<int> F_DM, std::vector<int> F_WB);
 
 public:
 	int pc;
@@ -29,7 +29,7 @@ public:
 	Decode();
 	~Decode();
 	void init(vector<int> *rf);
-	vector<int> run(vector<int> ifi);
+    vector<int> run(vector<int> ifi, std::vector<int> F_DM, std::vector<int> F_WB);
 };
 
 #endif /* defined(__CPU__Decode__) */

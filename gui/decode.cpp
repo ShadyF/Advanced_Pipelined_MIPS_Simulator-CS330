@@ -16,7 +16,9 @@ void Decode::init(vector<int> *rf){
 	decodeBuffer.resize(18); //adding two more slots, one for jump flag and the other for the address
 }
 
-vector<int> Decode::run(vector<int> ifi){
+vector<int> Decode::run(vector<int> ifi, std::vector<int> F_DM,
+                        std::vector<int> F_WB)\
+{
 	pc = ifi.at(0);
 	if (pc < 0)
 	{
@@ -40,13 +42,13 @@ vector<int> Decode::run(vector<int> ifi){
 	int func = inst & 63;
 
 	decodeBuffer.at(10) = imm; //signed imm
-	opCodeDecoder(opcode, func);
+    opCodeDecoder(opcode, func, F_DM, F_WB);
 	return decodeBuffer;
 }
 
 Decode:: ~Decode(){}
 
-void Decode::opCodeDecoder(int a, int func){
+void Decode::opCodeDecoder(int a, int func, std::vector<int> F_DM, std::vector<int> F_WB){
 
 	if (a != 0){
 		switch (a) {
@@ -119,11 +121,29 @@ void Decode::opCodeDecoder(int a, int func){
 			decodeBuffer.at(10) = 1; //imm
 			decodeBuffer.at(14) = 2; //jump flag
 			break;
-		case 4: //ble
+        case 4: //ble with data forwarding
+        {
+            decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
+            decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
+            int RegWrite_mem = F_DM[0]; int MemtoReg_mem = F_DM[1];
+            int ALU_res_mem = F_DM[2]; int RTorRD_mem = F_DM[3];
+            int RegWrite_wb = F_WB[0]; int MemtoReg_wb = F_DM[2];
+            int WB_data = F_WB[2]; int RTorRD_wb = F_WB[3];
+            if (RegWrite_wb)
+            {
+                if (decodeBuffer[11] == RTorRD_wb)
+                    decodeBuffer[8] = WB_data;
+                if (decodeBuffer[12] == RTorRD_wb)
+                    decodeBuffer[9] = WB_data;
+            }
+            if (RegWrite_mem && !MemtoReg_mem)
+            {
+                if (decodeBuffer[11] == RTorRD_mem)
+                    decodeBuffer[8] = ALU_res_mem;
+                if (decodeBuffer[12] == RTorRD_mem)
+                    decodeBuffer[9] = ALU_res_mem;
+            }
 			decodeBuffer.at(6) = 1;
-			decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs
-			decodeBuffer.at(9) = RegFile->at(decodeBuffer.at(12)); //r2 = rt
-            cout<<decodeBuffer.at(8)<<" "<<decodeBuffer.at(9)<<endl;
 
 			if (decodeBuffer.at(8) <= decodeBuffer.at(9))
 				decodeBuffer.at(2) = 1; // branch
@@ -140,6 +160,7 @@ void Decode::opCodeDecoder(int a, int func){
 			decodeBuffer.at(14) = 0; //jump flag
 			decodeBuffer[17] = 1; //check_branch
 			break;
+        }
 		case 1: // jump procedure should save rs in stack
 			decodeBuffer.at(6) = 6; //new opcode for Jump Procedure
 			decodeBuffer.at(8) = RegFile->at(decodeBuffer.at(11)); //r1 = rs

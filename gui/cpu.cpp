@@ -45,7 +45,7 @@ void CPU::run_one_cycle()
 	ETemp = ExecuteStage.run(Decode_buffer, FU_Mem, FU_WB);
 	MTemp = MemoryStage.Memory_run(Execute_buffer, FU_Mem);
 	WBStage.WB_run(Memory_buffer);                                    //write in first half
-	DTemp = DecodeStage.run(Fetch_buffer);                            //read in second half
+    DTemp = DecodeStage.run(Fetch_buffer, FU_Mem, FU_WB);                            //read in second half
 	clock++;
 	if (DTemp[14] == 1) //if j
 	{

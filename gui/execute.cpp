@@ -75,9 +75,9 @@ std::vector<int> Execute::run(std::vector<int> Decode_buffer, std::vector<int> F
 		alu_res = alu_first_op + alu_second_op;
 		break;
 		//case 1://ble
-	//case 2://slt
-		//alu_res = (R1 < R2) ? 1 : 0;
-		//break;
+    case 2://slt
+        alu_res = (alu_first_op < alu_second_op) ? 1 : 0;
+        break;
 	case 3://add
 		alu_res = alu_first_op + alu_second_op;
 		break;
